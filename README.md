@@ -1,5 +1,5 @@
 # ATiML-amendments
-Contains rmarkdown of coursework of `Advanced Topics in Machine Learning`
+Contains coureswork contents of `Advanced Topics in Machine Learning`
 
 - `A1.1` - __Exploratory Data Analysis__
 - `A1.2` - __Case Study on _20 newsgroup___
