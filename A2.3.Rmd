@@ -1,0 +1,69 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 2
+author: Submitted by - Ranji Raj
+date: "April 18th, 2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 2.3 - Feature Scaling**
+
+- One way to turn an average machine learning model into a good one is through the statistical technique of scaling the data. If we don't normalize the data, the machine learning algorithm will be dominated by the variables that use a larger scale, adversely affecting model performance.
+
+- Feature Scaling is a technique where we try to scale down the values of the features using process such as _Standardization_ &/or _Normalization_.
+
+- __Standardization__: A technique in which all the features are centered around __zero__ and have roughly __unit__ variance.
+
+- __Normalization__: A technique in which the data is scaled to a fixed range—usually 0 to 1.
+
+Dataset: _mtcars_
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+summary(mtcars)
+
+```
+The output above confirms that the numerical variables have different units and scales, for example, 'hp' in __Gross horsepower__ and 'disp' in __cubic inches__ These differences can unduly influence the model and, therefore, we need to scale or transform them.
+
+\newpage
+__Data Scaling - Standardization__
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+library(caret)
+ 
+preproc1 <- preProcess(mtcars[,c(1:10,11)], method=c("center", "scale"))
+ 
+norm1 <- predict(preproc1, mtcars[,c(1:10,11)])
+ 
+summary(norm1)
+```
+
+```{r scale1, echo=FALSE, fig.cap="Heatmap realization after Standardization", out.width = '70%', fig.align="center"}
+knitr::include_graphics("std.png")
+```
+__Data Scaling - Normalization__
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+preproc2 <- preProcess(mtcars[,c(1:10,11)], method=c("range"))
+ 
+norm2 <- predict(preproc2, mtcars[,c(1:10,11)])
+ 
+summary(norm2)
+```
+
+```{r scale2, echo=FALSE, fig.cap="Heatmap realization after Normalization", out.width = '70%', fig.align="center"}
+knitr::include_graphics("norm.png")
+```
+
+__Feature Scaling effect on algorithms__
+
+- __Logistic Regression__ : It always outputs in [0,1] so normalization is not required. Standardization is not mandatory but it helps faster convergence of the gradient descent algorithm.
+
+- __SVM (non-linear)__ : It uses distance-based measures like Euclidean distance as these are very sensitive to the range of the data points so normalization is required. SVM optimization occurs by __minimizing__ the decision vector w, the optimal hyperplane is influenced by the scale of the input features and it's therefore recommended that data be standardized.
+
+- __Gaussian Naive Bayes__: The estimator learns the mean and standard deviation of each feature (per class). At prediction time the probability of a value being in a class is a function of the distance from the center of the distribution. In essence Gaussian Naive Bayes __performs standardization internally__. Since, the basic assumption is _Conditional Independence_ normalization is not necessary.
+

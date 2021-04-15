@@ -1,0 +1,74 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 1
+author: Submitted by - Ranji Raj
+date: "April 11th, 2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 1.3 - Data Science Pipeline**
+
+Components of a Data Science Pipeline[^1]
+
+```{r pressure, echo=FALSE, fig.cap="CRISP-DM", out.width = '70%', fig.align="center"}
+knitr::include_graphics("CRISP.jpg")
+#knitr::opts_chunk$set(fig.pos = "!H", out.extra = "")
+```
+
+__a) Explain the goal of a text classification task in 1-2 simple sentences.__
+
+Ans: To automatically classify the text documents into one or more defined categories. In the context of the _20 newsgroups_ dataset the goal is correct categorization of news articles into defined topics. 
+
+__b) What is meant by pre-processing in this context? Provide examples, discuss potential benefits.__
+
+Ans: Pre-processing refers to extract the features from the training data using a sparse vectorizer ( __TfidfVectorizer__, __HashingVectorizer__)
+
+Benefits:
+
+* Due to low memory requirements it is  scalable to large datasets as there is no need to store a vocabulary dictionary in memory.
+
+* It is fast to pickle and un-pickle as it holds no state besides the constructor parameters
+
+* It can be used in a streaming (partial fit) or parallel pipeline as there is no state computed during fit.
+
+__c) Provide an example of a machine learning model for this task.__
+
+* _k_-nearest neighbors
+* Naive Bayes 
+* Random Forest 
+
+__d) What is a model? How do you represent a model?__
+
+* A __model__ in machine learning is the output of a machine learning algorithm run on data. It therefore represents what was learned by a ML algorithm.
+
+* The ID3 decision tree algorithm results in a model comprised of a tree of if-then statements with specific values.
+
+Representation[^2]: _y=f(x)_
+
+```{r echo=FALSE, fig.cap="Representing a model", out.width = '70%', fig.align="center"}
+knitr::include_graphics("Model.jpg")
+#knitr::opts_chunk$set(fig.pos = "!H", out.extra = "")
+```
+
+__e) What learning method was used by your model? Discuss.__
+
+Ans: Supervised learning, It was divided into 2034 documents - 3.980MB (training set) to build the model and the leftover 1353 documents - 2.867MB (test set) was used to estimate the performance for a selected subset of 4 categories.
+
+__f) Revisit the goal in the first step, how do we objectively measure if we were able to achieve the goal? (Try to visualize)__
+
+Ans: 
+```{r echo=FALSE, fig.cap="Horizontal barplot", out.width = '70%', fig.align="center"}
+knitr::include_graphics("plot.png")
+#knitr::opts_chunk$set(fig.pos = "!H", out.extra = "")
+```
+
+We can selectively look at the deep blue bar which denotes the score accompanied by each model which is a good indicator of how much efficacy is given by each benchmark classifiers to achieve the goal. The distribution is indicative of `PassiveAggressiveClassifier` and `RidgeClassifier` which attains nearly __90%__ accuracy in comparison to `kNN` and `Percepton`.
+
+[^1]: Adapted from: https://360digitmg.com/
+[^2]: Adapted from: Introduction to Data Mining (Second Edition)
