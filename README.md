@@ -8,3 +8,4 @@ Contains coursework contents of `Advanced Topics in Machine Learning`
 - `A2.2` - __Case Study on _Excess alcohol consumption among students___
 - `A2.3` - __Feature Scaling__
 - `A2.4` - __Feature Scaling on _k Nearest Neighbor___
+- `A4.1` - __Data sampling techniques & strategies__
