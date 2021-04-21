@@ -9,4 +9,4 @@ Contains coursework contents of `Advanced Topics in Machine Learning`
 - `A2.3` - __Feature Scaling__
 - `A2.4` - __Feature Scaling on _k Nearest Neighbor___
 - `A4.1` - __Data sampling techniques & strategies__
-- `A4.2` - __Model selection and evaluation__
+- `A4.2` - __Model selection and evaluation _(Grid Search & Cross-validation)___
