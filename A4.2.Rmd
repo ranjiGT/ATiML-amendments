@@ -1,0 +1,231 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 4
+author: Submitted by - Ranji Raj
+date: "May 03, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 4.2 - Model Selection & Evaluation**
+__Task A__
+
+Partitioning data randomly into _50%-Train set, 25%-Test set, 25%-Validation set_
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+library(fontawesome)
+library(caret)
+library(class)
+
+spec = c(train = .5, test = .25, validate = .25)
+
+byparts = sample(cut(
+  seq(nrow(iris)), 
+  nrow(iris)*cumsum(c(0,spec)),
+  labels = names(spec)
+))
+
+res = split(iris, byparts)
+
+addmargins(prop.table(table(byparts)))
+```
+__TASK B__
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+decisionplot <- function(model, data, class = NULL, predict_type = "class",
+                         resolution = 100, showgrid = TRUE, ...) {
+  
+  if(!is.null(class)) cl <- data[,class] else cl <- 1
+  data <- data[,1:2]
+  k <- length(unique(cl))
+  
+  plot(data, col = as.integer(cl)+1L, pch = as.integer(cl)+1L, ...)
+  
+  # make grid
+  r <- sapply(data, range, na.rm = TRUE)
+  xs <- seq(r[1,1], r[2,1], length.out = resolution)
+  ys <- seq(r[1,2], r[2,2], length.out = resolution)
+  g <- cbind(rep(xs, each=resolution), rep(ys, time = resolution))
+  colnames(g) <- colnames(r)
+  g <- as.data.frame(g)
+  
+  ### guess how to get class labels from predict
+  ### (unfortunately not very consistent between models)
+  p <- predict(model, g, type = predict_type)
+  if(is.list(p)) p <- p$class
+  p <- as.factor(p)
+  
+  if(showgrid) points(g, col = as.integer(p)+1L, pch = ".")
+  
+  z <- matrix(as.integer(p), nrow = resolution, byrow = TRUE)
+  contour(xs, ys, z, add = TRUE, drawlabels = FALSE,
+          lwd = 2, levels = (1:(k-1))+.5)
+  
+  invisible(z)
+}
+```
+
+__With k=1__
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+train_feat_1 <- res$train[,1:4] 
+test_feat_1 <- res$test[,1:4]
+
+set.seed(1)
+train_targets_1 = as.matrix(res$train["Species"])
+test_targets_1 = as.matrix(res$test["Species"])
+
+train_pred_1 <- knn(train_feat_1, train_feat_1, train_targets_1, k=1)
+train_acc_1 <- mean(train_pred_1 == train_targets_1)
+
+set.seed(1)
+test_pred_1 <- knn(train_feat_1, test_feat_1, train_targets_1, k=1)
+test_acc_1 <- mean(test_pred_1 == test_targets_1)
+
+cat('Training Accuracy:   ', test_acc_1, '\n',
+    'Test error: ', 1-test_acc_1, sep='')
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+x <- iris[1:150, c("Sepal.Length", "Sepal.Width", "Species")]
+model <- knn3(Species ~ ., data=x, k = 1)
+decisionplot(model, x, class = "Species", main = "Decision boundary 1-NN")
+```
+\newpage
+__With k=3__
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+train_feat_3 <- res$train[,1:4] 
+test_feat_3 <- res$test[,1:4]
+
+set.seed(1)
+train_targets_3 = as.matrix(res$train["Species"])
+test_targets_3 = as.matrix(res$test["Species"])
+
+train_pred_3 <- knn(train_feat_3, train_feat_3, train_targets_3, k=3)
+train_acc_3 <- mean(train_pred_3 == train_targets_3)
+
+set.seed(1)
+test_pred_3 <- knn(train_feat_3, test_feat_3, train_targets_3, k=3)
+test_acc_3 <- mean(test_pred_3 == test_targets_3)
+
+cat('Training Accuracy:   ', train_acc_3, '\n',
+    'Test error: ', 1-test_acc_3, sep='')
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+x <- iris[1:150, c("Sepal.Length", "Sepal.Width", "Species")]
+model <- knn3(Species ~ ., data=x, k = 3)
+decisionplot(model, x, class = "Species", main = "Decision boundary 3-NN")
+```
+__With k=5__
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+train_feat_5 <- res$train[,1:4] 
+test_feat_5 <- res$test[,1:4]
+
+set.seed(1)
+train_targets_5 = as.matrix(res$train["Species"])
+test_targets_5 = as.matrix(res$test["Species"])
+
+train_pred_5 <- knn(train_feat_5, train_feat_5, train_targets_5, k=5)
+train_acc_5 <- mean(train_pred_5 == train_targets_5)
+
+set.seed(1)
+test_pred_5 <- knn(train_feat_5, test_feat_5, train_targets_5, k=5)
+test_acc_5 <- mean(test_pred_5 == test_targets_5)
+
+cat('Training Accuracy:   ', train_acc_5, '\n',
+    'Test error: ', 1-test_acc_5, sep='')
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+x <- iris[1:150, c("Sepal.Length", "Sepal.Width", "Species")]
+model <- knn3(Species ~ ., data=x, k = 5)
+decisionplot(model, x, class = "Species", main = "Decision boundary 5-NN")
+```
+\newpage
+__TASK C__
+
+___By Grid search for optimal k___
+<!--  ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"} -->
+
+<!-- train_acc <- c() -->
+<!-- test_acc <- c() -->
+
+<!-- train_feat <- res$train[,1:4] -->
+<!-- test_feat <- res$test[,1:4] -->
+
+<!-- train_targets = as.matrix(res$train["Species"]) -->
+<!-- test_targets = as.matrix(res$test["Species"]) -->
+
+<!-- for (i in 2:5){ -->
+<!--   set.seed(1) -->
+<!--   train_pred <- knn(train_feat, train_feat, train_targets, k=i) -->
+<!--   train_acc <- c(train_acc, mean(train_pred == train_targets)) -->
+
+<!--   set.seed(1) -->
+<!--   test_pred <- knn(test_feat, test_feat, test_targets, k=i) -->
+<!--   test_acc <- c(test_acc, mean(test_pred == test_targets)) -->
+<!-- } -->
+
+<!-- plot(2:5, train_acc, pch='.', ylim=c(0.8, 1), col='salmon') -->
+<!-- lines(2:5, train_acc, lwd=2, col='salmon') -->
+
+<!-- lines(2:5, test_acc, lwd=2, col='cornflowerblue') -->
+<!-- legend("bottomright", inset=.02,legend=c("Train Acc", "Test Acc"), -->
+<!--        col=c("salmon", "cornflowerblue"), lty=1, lwd=2, cex=0.8, ) -->
+
+<!-- max(test_acc) -->
+<!-- which.max(test_acc) -->
+<!-- ``` -->
+
+<!--  ```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"} -->
+<!-- #library(caret) -->
+<!-- # classifier = train(form = Species ~ ., data = iris, method = 'knn', tuneGrid   = expand.grid(k = 1:5)) -->
+<!-- # classifier -->
+<!-- ``` -->
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+classifier = train(form = Species ~ ., data = res$validate, method = 'knn', tuneGrid   = expand.grid(k = c(1,3,5)))
+classifier
+```
+
+__TASK D__
+
+___Confusion Matrix (based on winner model)___
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+
+y_pred = predict(classifier, newdata = res$test[-5])
+cm = table(res$test[,5], y_pred)
+cm
+```
+__TASK E__
+
+___5-fold CV___
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+trControl <- trainControl(method  = "cv",
+                          number  = 5)
+
+fit <- train(Species ~ .,
+             method     = "knn",
+             tuneGrid   = expand.grid(k = c(1,3,5)),
+             trControl  = trControl,
+             metric     = "Accuracy",
+             data       = res$validate)
+fit
+```
+__Inference__: 
+
+- It is evident that by using _Grid search_ on validation set, for the value of __k=1__ it always gets 100% accuracy on the training set and outperforms all the other. This in fact, is a problem as from the decision plot it can be seen that this clearly is a case of _overfitting_.
+
+- When using _5-fold CV_ on validation set, the optimal value for k which was estimated to be 5 which is a very good re-sampling method used to lay the foundation of the best `knn` model. 
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
