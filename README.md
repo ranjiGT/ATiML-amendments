@@ -1,4 +1,4 @@
-# ATiML-amendments
+# `ATiML-amendments`
 Contains coursework contents of `Advanced Topics in Machine Learning`
 
 - `A1.1` - __Exploratory Data Analysis__
