@@ -1,4 +1,4 @@
-# `ATiML-amendments` ![](https://img.shields.io/badge/Made%20with-LaTeX-1f425f.svg)
+# `ATiML-amendments` ![](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)
 Contains coursework contents of `Advanced Topics in Machine Learning`
 
 - `A1.1` - __Exploratory Data Analysis__
