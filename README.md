@@ -9,6 +9,6 @@ Contains coursework contents of `Advanced Topics in Machine Learning`
 - `A2.3` - __Feature Scaling__
 - `A2.4` - __Feature Scaling on _k Nearest Neighbor___
 - `A4.1` - __Data sampling techniques & strategies__
-- `A4.2` - __Model selection and evaluation _(Grid Search & Cross-validation)___
+- [`A4.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/A4.2.Rmd) - __Model selection and evaluation _(Grid Search & Cross-validation)___
 - `A4.3` -  __Model comparison _(using Learning curves)___
 - `A4.4` - __Statistical comparison of classifiers using _Dietterich's 5x2cv paired t-test___
