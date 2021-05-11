@@ -1,0 +1,52 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 5
+author: Submitted by - Ranji Raj
+date: "May 15, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 5.1 - Linear Learning Machines**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+### Fundamental idea
+
+- A learning machine using a hypothesis that forms linear combinations of the input variables is known as a linear learning machine.
+
+- It tries to find a `hyperplane` for (> 2 Dim) and a `line` for (2 Dim) and tries to separate two classes from each other.
+
+### Classification
+
+A linear function $f(x)$ is commonly used for binary classification, for a target variable y $\in$ {-1, +1}, as follows:
+
+For an instance set $x=(x_1, x_2,...,x_n)$ assign to +ve class if $f(x) \ge 0$, otherwise assign to -ve class,
+
+where,
+
+$f(x)=\sum_{i=1}^{n} w_ix_i + b = <w.x> + b$ and <.> denotes the inner product.
+
+```{r pressure, echo=FALSE, fig.cap="A separating line for a 2D training set", out.width = '40%', fig.align="center"}
+knitr::include_graphics("LLM.jpg")
+```
+
+### Classification problems by LLM
+
+In the areas of __Text mining__ such as Sentiment analysis for distinguishing between positive and negative words from twitter can be formulated as a candidate problem for LLM.
+
+### Problems that cannot be classified by LLM
+
+Problems where the input data is not linearly separable like boolean `XOR` gate.
+
+```{r xor, echo=FALSE, fig.cap="Geometric representation - XOR", out.width = '40%', fig.align="center"}
+knitr::include_graphics("DB3.png")
+```
+
