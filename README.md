@@ -14,3 +14,4 @@ Contains coursework contents of `Advanced Topics in Machine Learning`
 - [`A4.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/A4.4.Rmd) - __Statistical comparison of classifiers using _Dietterich's 5x2cv paired t-test___
 - [`A5.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/A5.1.Rmd) - __Linear Learning Machines__
 - [`A5.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/A5.2.Rmd) - __Dual Representation in LLM__
+- [`A5.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/A5.3.Rmd) - __Kernel Matrix & Kernel function__
