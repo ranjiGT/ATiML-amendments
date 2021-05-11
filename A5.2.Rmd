@@ -49,13 +49,4 @@ That the model can be learned using the training algorithm purely based on the i
 
 
 
-
-
-
-
-
-
-
-
-
 [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
