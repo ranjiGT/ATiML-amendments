@@ -1,0 +1,56 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 5
+author: Submitted by - Ranji Raj
+date: "May 16, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 5.3 - Kernel function & Kernel matrix**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+### Kernel function
+
+- A function that returns the value of the dot product between the images of the two arguments.
+
+- They perform the embedding i.e. project the data to a different space where the data becomes linearly separable in the new space.
+
+```{r xor, echo=FALSE, fig.cap="Kernel transformation for linear separation", out.width = '50%', fig.align="center"}
+knitr::include_graphics("krn_trans.jpg")
+```
+
+
+### Kernel functions employed by LLM
+
+Can used by simply rewriting it in dual representation and replacing dot products with kernels as follows:
+
+$$<x_1, x_2> \gets K<x_1, x_2> = <\phi(x_1), \phi(x_2)>$$
+
+### Benefits
+
+- Computation needed only for the inner-products, $f(x) = \sum_{i} \alpha_i y_i<\phi(x_1), \phi(x_2)> + b$
+
+- Solve the computational problem of working with many dimensions hence, dimensionality of $\phi(.)$ is unimportant.
+
+- Extend to be used for infinite dimensions as well which are efficient in space and time.
+
+### Kernel matrix (Gram matrix)
+
+- A symmetric positive definite matrix. Any such matrix can be treated as a kernel matrix, that is an inner product matrix in some space.
+- Is is the central structure in kernel machines.
+- Information `bottleneck`: resides all vital details for the learning algorithm.
+- Fuses information about the `data` & `kernel`.
+
+
+
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
