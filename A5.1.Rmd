@@ -50,3 +50,4 @@ Problems where the input data is not linearly separable like boolean `XOR` gate.
 knitr::include_graphics("DB3.png")
 ```
 
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
