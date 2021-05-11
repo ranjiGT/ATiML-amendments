@@ -22,9 +22,9 @@ library(fontawesome)
 
 - A function that returns the value of the dot product between the images of the two arguments.
 
-- They perform the embedding i.e. project the data to a different space where the data becomes linearly separable in the new space.
+- They perform the embedding i.e. project the data to a different space where the data becomes linearly separable in the new space [^1].
 
-```{r xor, echo=FALSE, fig.cap="Kernel transformation for linear separation", out.width = '50%', fig.align="center"}
+```{r kernel-1, echo=FALSE, fig.cap="Kernel transformation for linear separation", out.width = '50%', fig.align="center"}
 knitr::include_graphics("krn_trans.jpg")
 ```
 
@@ -50,7 +50,12 @@ $$<x_1, x_2> \gets K<x_1, x_2> = <\phi(x_1), \phi(x_2)>$$
 - Information `bottleneck`: resides all vital details for the learning algorithm.
 - Fuses information about the `data` & `kernel`.
 
+```{r kernel-2, echo=FALSE, fig.cap="Gram matrix", out.width = '50%', fig.align="center"}
+knitr::include_graphics("grammat.jpg")
+```
 
+
+[^1]:https://studylib.net/doc/5717612/slides
 
 
 [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
