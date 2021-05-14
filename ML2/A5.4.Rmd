@@ -1,0 +1,74 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 5
+author: Submitted by - Ranji Raj
+date: "May 17, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 5.4 - Linear Support Vector Machines**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+
+### Idea behind Linear SVM
+
+1. Begin with the data in relatively lower dimensions and check if can be distinguished into different classes.
+
+1. If not possible, then migrate the data to a higher dimension.
+
+1. Here, find the best hyperplane which separates the higher dimensional data into classes.
+
+__a) Illustrate your explanation by drawing a figure.__
+
+```{r echo=FALSE, fig.cap="Linear SVM", out.width = '70%', fig.align="center"}
+knitr::include_graphics("draw_svm.jpg")
+```
+
+__b) What equations are used in SVMs? How can a separating hyperplane with a maximal margin be found?__
+
+The equation of the hyperplane is given as:
+
+$$w^{T}x + b=0$$
+However, this hyperplane is not uniquely defined:
+
+For $c \neq 0: {x | <w,x> +b=0}={x | <c.w,x> +b=0}$
+
+therefore, rescaling $(w,b)$ relative to the training data is required such that,
+
+$$\underset{x_i \in X}{\mathrm{min}} \quad |<w,x_i> +b|=1$$
+A hyperplane with this property is called as _canonical hyperplane_.
+
+**Finding a separating hyperplane with a maximal margin**
+
+- The distance _d_ of a point $x_i$ of the class $y_i \in \{-1,1\}$ to a hyperplane _H_ can be computed as,
+
+$$d(H,x_i)=y_i\Bigg(  \Bigg<  \frac{w}{\lVert w \rVert},x  \Bigg>+\frac{b}{\lVert w \rVert} \Bigg)$$
+
+- For a canonical hyperplane for points $(x_1, +1)$ and $(x_2, -1)$ close to the hyperplane holds:
+
+$$<w,x_1>+b=+1 \quad and \quad<w,x_2>+b=-1$$
+$$\Rightarrow \Bigg< \frac{w}{\lVert w \rVert},x_1 \Bigg>+ \frac{b}{\lVert w \rVert}=\frac{+1}{\lVert w \rVert} \quad and \quad \Bigg< \frac{w}{\lVert w \rVert},x_2 \Bigg>+ \frac{b}{\lVert w \rVert}=\frac{-1}{\lVert w \rVert}$$
+$$\Rightarrow \Bigg< \frac{w}{\lVert w \rVert},(x_1-x_2) \Bigg>=\frac{2}{\lVert w \rVert}$$
+__c) How is the optimization problem of a Support Vector Machine modified to handle not linearly separable data?__
+
+For handling non-linearly separable data incorporation of positive `slack variables` $\xi_i$, in the constraints are made as follows:
+
+$$<w,x_i>+b \ge +1 - \xi_i \quad for \quad y_i=+1 $$
+$$<w,x_i>+b \le -1 + \xi_i \quad for \quad y_i=-1 $$
+$$\xi_i \ge 0 \quad \forall i$$
+```{r echo=FALSE, fig.cap="Effect of slack variables", out.width = '32%', fig.align="center"}
+knitr::include_graphics("slack.jpg")
+```
+
+
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
