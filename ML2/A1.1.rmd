@@ -1,0 +1,84 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 1
+author: Submitted by - Ranji Raj
+date: "April 10th, 2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 1.1 - Exploratory Data Analysis**
+
+__a) How does the raw data look like?__
+
+```{r part-a}
+data(iris)
+head(iris)
+```
+
+__b) What are Instances, Records, Observations?__
+
+Ans: The __rows__ of the dataset. At present there are __`r nrow(iris)`__ records/instances/observations.
+
+__c) What are Attributes, Features, Feature Vectors?__
+
+Ans: The __columns__ of the dataset. In this, `Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`
+
+__d) What are Categories, State-of-Nature, Labels, Class-labels, Class, Target, Target-Variables?__
+
+Ans: The last column in the dataset where the instances are classified. In this, `Species` having values `setosa`, `versicolor`, `virginica`
+```{r part-b,c,d}
+str(iris)
+```
+__e) What are Explanatory Variables Vs. Response Variables, Dependent Vs. Independent variables?__
+
+Ans: 
+_Explanatory/Independent variables_: Taken as the __features__ of the dataset used for model explainability. _Response/Dependent variables_: Taken as the __target__ of the dataset which is used for classification or prediction.
+
+__f) What is meant by distribution of a feature? (like _Sepal length_ as an example)__
+
+Ans: Denotes the set of possible values for a particular feature.
+
+```{r part-f}
+par(mfrow = c(2, 2))
+hist(iris$Sepal.Length, breaks = 20)
+hist(iris$Sepal.Width, breaks = 20)
+hist(iris$Petal.Length, breaks = 20)
+hist(iris$Petal.Width, breaks = 20)
+```
+__g) What are common methods to visualize more than 3 dimensions? Try PCA on IRIS data, what do you observe?__
+
+Ans: For visualizing more than 3 dimensions use Scatterplot Matrices (SPLOM).
+
+- 4D: Scatterplot/bubble chart + depth + hue
+- 5D: Bubble chart + depth + hue + size
+- 6D: Bubble chart + depth + hue + size + shape
+
+\newpage
+__Principal Component Analysis on IRIS__[^1]
+
+- Often higher dimensions causes a problem called __Curse of Dimensionality__ which impacts the accuracy.
+- PCA is a linear dimensionality reduction technique that generates a new set of dimensions which is a linear combination of the original dimensions _sorted according to variance_.
+- Each PC carries a _loading_ that characterizes how much variability of the data is explained.
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+library(ggfortify)
+df <- iris[1:4]
+pca_res <- prcomp(df, scale. = TRUE)
+
+autoplot(pca_res, data = iris, colour = 'Species',
+         loadings = TRUE, loadings.colour = 'blue',
+         loadings.label = TRUE, loadings.label.size = 3)
+```
+```{r}
+summary(pca_res)
+```
+__Observation__: 4 PCs are obtained from PC1-4. Each of these explains a percentage of the total variation in the dataset. That is to say: PC1 explains 73% of the total variance, which means nearly more than two-thirds of the information in the dataset can be encapsulated by just that one Principal Component. PC2 explains nearly 23% of the variance. So, by knowing the position of a sample in relation to just PC1 and PC2, you can get a very accurate view on where it stands in relation to other samples, as just PC1 and PC2 can explain __95%__ of the variance. 
+
+
+[^1]: https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html

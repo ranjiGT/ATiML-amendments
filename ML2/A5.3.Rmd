@@ -1,0 +1,102 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 5
+author: Submitted by - Ranji Raj
+date: "May 16, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 5.3 - Learning decision function using LLM**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+Given are the following points A(-0:5;1), B(-1;-1:5), C(-1:5;1:5), D(1:5;-0:5) and
+E(0:5;-0:5) as shown below. The goal is to learn a decision function f using Linear
+Learning Machines (LLM) that separates A and E from the other points.
+
+
+```{r echo=FALSE, fig.cap="Set of points in 2D", out.width = '40%', fig.align="center"}
+knitr::include_graphics("q5.jpg")
+```
+__a) Compute the kernel matrix for__ $\mathbf{K(x_1, x_2) = <x_1, x_2>^2}$
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+dm <- tribble(
+  ~x, ~y,
+  -0.5, 1,
+  -1, -1.5,
+  -1.5, 1.5,
+  1.5, -0.5,
+  0.5, -0.5,
+  ) %>% as.matrix()
+print("Kernel matrix")
+(dm %*% t(dm))^2   #inner dot product
+print("Max norm")
+max(sqrt(colSums(df^2)))^2 #max norm
+```
+```{r setup, include=FALSE, results='hide', warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, engine.path = list(python = 'C:/Users/User/AppData/Local/Programs/Python/Python39/python.exe'))
+```
+
+```{r warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+
+a <- c(-0.5,1)
+b <- c(-1,-1.5)
+c <- c(-1.5,1.5)
+d <- c(1.5,-0.5)
+e <- c(0.5,-0.5)
+df <- data.frame(a,b,c,d,e)
+
+print(max(sqrt(colSums(df^2)))^2)
+
+```
+
+\newpage
+__b) Apply the perceptron update rule in dual representation (see below) to all five data points using the kernel from (a).__ __Start with__ $\alpha=\vec{0}, b=0$ __and repeat the updating until all data points can be correctly classified:__
+
+$$\forall i: y_i(\sum_{j=1}^{n} \alpha_j y_j<x_j,x_i>^2 +b)\le 0 \Rightarrow \alpha_i=\alpha_i+1; b = b+y_i(\underset{j}{\mathrm{max}} \lVert x_j \rVert)^2$$
+__You may want to implement this as a short script. Hint: 5 updates are needed before convergence.__
+
+```{python warning=FALSE, message=FALSE, echo=FALSE}
+b = 0 #given 
+alpha = np.zeros(X.shape[0]) #given 
+print('Iteration  ==> ', 'alpha vector  ==> ', 'b value')
+for k in range(5):
+    for i in range(X.shape[0]):
+        s = 0
+        for j in range(X.shape[0]):
+            s += (alpha[j] * y[j] * res[j][i])
+        s += b
+        s *= y[i]
+        if s <= 0:
+            alpha[i] += 1
+            b += (y[i] * (max_norm))        
+        print(i+1, ' ==> ', alpha, ' ==> ', b)
+    print()
+```
+__c) Classify the point X(-1;0) using the learned hyperplane.__
+
+```{python warning=FALSE, message=FALSE, echo=FALSE}
+alpha_ = np.array([2, 1, 1, 0, 1])
+b_ = -4.499999999999999
+x_ = [-1, 0]
+s = 0
+for j in range(5):
+    s += (alpha_[j] * y[j] * (np.dot(X[j], x_)**2))
+    s += b_
+print(s)
+```
+
+
+
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

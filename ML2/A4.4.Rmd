@@ -1,0 +1,159 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 4
+author: Submitted by - Ranji Raj
+date: "May 04, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 4.4 - Statistical comparison of classifiers**
+__Task A__
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, engine.path = list(python = 'C:/Users/User/AppData/Local/Programs/Python/Python39/python.exe'))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+
+from sklearn.datasets import fetch_20newsgroups
+from pprint import pprint
+from sklearn.feature_extraction.text import CountVectorizer
+
+import warnings
+warnings.filterwarnings("ignore")
+
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+
+categories = ['alt.atheism',
+ 'comp.graphics',
+ 'comp.os.ms-windows.misc',
+ 'comp.sys.ibm.pc.hardware',
+ 'comp.sys.mac.hardware']
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+newsgroup_data = fetch_20newsgroups(subset='all', categories=categories,shuffle=True, random_state=42,remove=('headers', 'footers', 'quotes'))
+
+type(newsgroup_data)
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+
+X = newsgroup_data.data
+y = newsgroup_data.target
+
+y.shape
+```
+
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+vectorizer = CountVectorizer(max_df=1.0,stop_words='english')
+X = vectorizer.fit_transform(X)
+
+feature_names = vectorizer.get_feature_names()
+
+print(X.shape)
+print(len(feature_names))
+
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, shuffle=True, stratify= y,random_state=42)
+
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+```
+
+__Logistic regression classifier__
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+
+model_lg2 = LogisticRegression(penalty="l2",random_state=42)
+model_lg2.fit(X_train, y_train)
+```
+
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+
+from sklearn import metrics
+train_score = metrics.accuracy_score(y_train, model_lg2.predict(X_train))
+print("Train accuracy:   %0.4f" % train_score)
+
+pred = model_lg2.predict(X_test)
+    
+score = metrics.accuracy_score(y_test, pred)
+print("Test accuracy:   %0.4f" % score)
+
+print("classification report:")
+print(metrics.classification_report(y_test, pred))
+
+print("confusion matrix:")
+print(metrics.confusion_matrix(y_test, pred))
+```
+__Decision Tree classifier__
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+from sklearn.tree import DecisionTreeClassifier
+
+model_dt = DecisionTreeClassifier(random_state=0)
+model_dt.fit(X_train, y_train)
+```
+
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+train_score2 = metrics.accuracy_score(y_train, model_dt.predict(X_train))
+print("Train accuracy:   %0.4f" % train_score2)
+
+pred2 = model_dt.predict(X_test)
+    
+score2 = metrics.accuracy_score(y_test, pred2)
+print("Test accuracy:   %0.4f" % score2)
+
+print("classification report:")
+print(metrics.classification_report(y_test, pred2))
+
+print("confusion matrix:")
+print(metrics.confusion_matrix(y_test, pred2))
+```
+__TASK B__
+
+- Null hypothesis: Both the classifiers perform similar
+- Alternate hypothesis: Both the classifiers perform dissimilar
+
+The `significance threshold`, $\alpha$ is assumed to be `0.05` at `95%` C.I.
+
+__TASK C__
+
+```{python echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center"}
+from mlxtend.evaluate import paired_ttest_5x2cv
+t, p = paired_ttest_5x2cv(estimator1=model_lg2,
+                          estimator2=model_dt,
+                          X=X, y=y,
+                          random_seed=42)
+
+print('t statistic: %.3f' % t)
+print('p value: %.10f' % p)
+```
+__TASK D__
+
+__Conclusion__: Since, p < $\alpha$, we reject the null hypothesis and conclude that the performance of the two algorithms are significantly different.
+
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

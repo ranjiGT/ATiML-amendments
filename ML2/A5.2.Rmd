@@ -1,0 +1,176 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 5
+author: Submitted by - Ranji Raj
+date: "May 16, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+# **Assignment 5.2 - Kernel function & Kernel matrix**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+__a) What is a kernel function? Define it! What is a Kernel matrix?__
+
+### Kernel function
+
+- A function that returns the value of the dot product between the images of the two arguments.
+
+$$K<x_1, x_2> = <\phi(x_1), \phi(x_2)>$$
+
+- They perform the embedding i.e. project the data to a different space where the data becomes linearly separable in the new space [^1].
+
+```{r kernel-1, echo=FALSE, fig.cap="Kernel transformation for linear separation", out.width = '50%', fig.align="center"}
+knitr::include_graphics("krn_trans.jpg")
+```
+
+### Kernel matrix (Gram matrix)
+
+- A symmetric positive definite matrix. Any such matrix can be treated as a kernel matrix, that is an inner product matrix in some space.
+- Is is the central structure in kernel machines.
+- Information `bottleneck`: resides all vital details for the learning algorithm.
+- Fuses information about the `data` & `kernel`.
+
+```{r kernel-2, echo=FALSE, fig.cap="Gram matrix", out.width = '50%', fig.align="center"}
+knitr::include_graphics("grammat.jpg")
+```
+
+\newpage
+__b) How can LLMs make use of kernel functions? What is the benefit?__
+
+### Kernel functions employed by LLM
+
+Can used by simply rewriting it in dual representation and replacing dot products with kernels as follows:
+
+$$<x_1, x_2> \gets K<x_1, x_2> = <\phi(x_1), \phi(x_2)>$$
+
+### Benefits
+
+- Computation needed only for the inner-products, $f(x) = \sum_{i} \alpha_i y_i<\phi(x_1), \phi(x_2)> + b$
+
+- Solve the computational problem of working with many dimensions hence, dimensionality of $\phi(.)$ is unimportant.
+
+- Extend to be used for infinite dimensions as well which are efficient in space and time.
+
+__c) Shortly describe what a linear kernel is! Provide two other kernels as examples and give a use case for each of them!__
+
+### Linear Kernel
+
+- Assuming we have linearly separable data, a `Linear Kernel` is used when the data it can be separated using a single line. It is one of the most common kernels to be used.
+
+- It is mostly used when there are a large number of features in a particular dataset. 
+- One of the examples where there are a lot of features, is __Text Classification__, as each alphabet is a new feature. So we mostly use `Linear Kernel` in Text Classification use cases.
+
+### Polynomial Kernel
+
+It is a more _generalized_ representation of the linear kernel. 
+
+Given as,
+
+$$K<x_1, x_2> = <x_1, x_2>^d$$ 
+where, d is the order/degree of polynomial.
+
+__Use case__: In image processing domain such as, Micro-surgical procedures in the healthcare industry powered by robots use computer vision and image recognition techniques.
+
+
+### RBF Kernel
+
+It is one of the most preferred and used kernel functions. It is usually chosen for __non-linear data__. It helps to make proper separation when there is no prior knowledge of data.
+
+Given as,
+
+$$K<x_1, x_2> = e^{-\gamma \lVert x_1 -x_2 \rVert^2 }$$ 
+
+where, where $\gamma$, must be greater than 0.
+
+__Use case__: In pattern recognition such as _Novelty detection_, used in problems such as identifying protein-folding regions in certain subspaces for Neurodegenerative diseases.
+
+
+
+```{r setup, include=FALSE, results='hide', warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, engine.path = list(python = 'C:/Users/User/AppData/Local/Programs/Python/Python39/python.exe'))
+```
+
+```{python echo=FALSE, fig.cap="Different types of Kernels", out.width = '70%', fig.align="center", warning = FALSE, message = FALSE}
+
+print(__doc__)
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import svm, datasets
+
+
+def make_meshgrid(x, y, h=.02):
+    x_min, x_max = x.min() - 1, x.max() + 1
+    y_min, y_max = y.min() - 1, y.max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    return xx, yy
+
+
+def plot_contours(ax, clf, xx, yy, **params):
+    
+    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    out = ax.contourf(xx, yy, Z, **params)
+    return out
+
+
+# import some data to play with
+iris = datasets.load_iris()
+# Take the first two features. We could avoid this by using a two-dim dataset
+X = iris.data[:, :2]
+y = iris.target
+
+# we create an instance of SVM and fit out data. We do not scale our
+# data since we want to plot the support vectors
+C = 1.0  # SVM regularization parameter
+models = (svm.SVC(kernel='linear', C=C),
+          svm.SVC(kernel='poly', degree=2, gamma='auto', C=C),
+          svm.SVC(kernel='rbf', gamma=0.7, C=C),
+          svm.SVC(kernel='poly', degree=3, gamma='auto', C=C))
+models = (clf.fit(X, y) for clf in models)
+
+# title for the plots
+titles = ('SVC with linear kernel',
+          'SVC with polynomial (degree 2) kernel',
+          'SVC with RBF kernel',
+          'SVC with polynomial (degree 3) kernel')
+
+# Set-up 2x2 grid for plotting.
+fig, sub = plt.subplots(2, 2)
+plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
+X0, X1 = X[:, 0], X[:, 1]
+xx, yy = make_meshgrid(X0, X1)
+
+for clf, title, ax in zip(models, titles, sub.flatten()):
+    plot_contours(ax, clf, xx, yy,
+                  cmap=plt.cm.coolwarm, alpha=0.8)
+    ax.scatter(X0, X1, c=y, cmap=plt.cm.coolwarm, s=20, edgecolors='k')
+    ax.set_xlim(xx.min(), xx.max())
+    ax.set_ylim(yy.min(), yy.max())
+    ax.set_xlabel('Sepal length')
+    ax.set_ylabel('Sepal width')
+    ax.set_xticks(())
+    ax.set_yticks(())
+    ax.set_title(title)
+
+plt.show()
+```
+
+
+
+
+[^1]:https://studylib.net/doc/5717612/slides
+
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
