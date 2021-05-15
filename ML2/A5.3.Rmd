@@ -28,37 +28,26 @@ knitr::include_graphics("q5.jpg")
 ```
 __a) Compute the kernel matrix for__ $\mathbf{K(x_1, x_2) = <x_1, x_2>^2}$
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-library(tidyverse)
-dm <- tribble(
-  ~x, ~y,
-  -0.5, 1,
-  -1, -1.5,
-  -1.5, 1.5,
-  1.5, -0.5,
-  0.5, -0.5,
-  ) %>% as.matrix()
-print("Kernel matrix")
-(dm %*% t(dm))^2   #inner dot product
-print("Max norm")
-max(sqrt(colSums(df^2)))^2 #max norm
+```{python, echo=FALSE, warning=FALSE, message=FALSE}
+import numpy as np
+X = np.array([[-0.5, 1], [-1, -1.5], [-1.5, 1.5], [1.5, -0.5], [0.5, -0.5]])
+y = np.array([-1, 1, 1, 1, -1])
+res = np.empty((5, 5))
+
+def k(X):
+    for i in range(X.shape[0]):
+        for j in range(X.shape[0]):
+            res[i][j] = np.dot(X[i], X[j]) ** 2
+    return res
+print("---Kernel Matrix---")
+print(k(X))
 ```
+
+
 ```{r setup, include=FALSE, results='hide', warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, engine.path = list(python = 'C:/Users/User/AppData/Local/Programs/Python/Python39/python.exe'))
 ```
 
-```{r warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
-
-a <- c(-0.5,1)
-b <- c(-1,-1.5)
-c <- c(-1.5,1.5)
-d <- c(1.5,-0.5)
-e <- c(0.5,-0.5)
-df <- data.frame(a,b,c,d,e)
-
-print(max(sqrt(colSums(df^2)))^2)
-
-```
 
 \newpage
 __b) Apply the perceptron update rule in dual representation (see below) to all five data points using the kernel from (a).__ __Start with__ $\alpha=\vec{0}, b=0$ __and repeat the updating until all data points can be correctly classified:__
@@ -66,10 +55,18 @@ __b) Apply the perceptron update rule in dual representation (see below) to all 
 $$\forall i: y_i(\sum_{j=1}^{n} \alpha_j y_j<x_j,x_i>^2 +b)\le 0 \Rightarrow \alpha_i=\alpha_i+1; b = b+y_i(\underset{j}{\mathrm{max}} \lVert x_j \rVert)^2$$
 __You may want to implement this as a short script. Hint: 5 updates are needed before convergence.__
 
-```{python warning=FALSE, message=FALSE, echo=FALSE}
+```{python warning=F, message=F, echo=F, results=T}
+
+def max_norm(X):
+    norms = []
+    for i in range(X.shape[0]):
+        norms.append(np.linalg.norm(X[i]))
+    return max(norms) ** 2
+max_norm = max_norm(X)
+
 b = 0 #given 
 alpha = np.zeros(X.shape[0]) #given 
-print('Iteration  ==> ', 'alpha vector  ==> ', 'b value')
+print('Itr#   ', '---alpha vec---', '     ---b')
 for k in range(5):
     for i in range(X.shape[0]):
         s = 0
@@ -80,14 +77,16 @@ for k in range(5):
         if s <= 0:
             alpha[i] += 1
             b += (y[i] * (max_norm))        
-        print(i+1, ' ==> ', alpha, ' ==> ', b)
+        print(i+1, ' --- ', alpha, ' --- ', b)
     print()
+print("alpha vector: ",alpha)
+print("b value: ", b)
 ```
 __c) Classify the point X(-1;0) using the learned hyperplane.__
 
 ```{python warning=FALSE, message=FALSE, echo=FALSE}
 alpha_ = np.array([2, 1, 1, 0, 1])
-b_ = -4.499999999999999
+b_ = -4.5
 x_ = [-1, 0]
 s = 0
 for j in range(5):
@@ -96,6 +95,7 @@ for j in range(5):
 print(s)
 ```
 
+The point X(-1;0) belongs to class -1.
 
 
 
