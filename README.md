@@ -16,3 +16,7 @@ Contains coursework contents of `Advanced Topics in Machine Learning`
 - [`A5.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.2.Rmd) - __Dual Representation in LLM__
 - [`A5.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.3.Rmd) - __Learning decision function using LLM__
 - [`A5.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.4.Rmd) - __Support Vector Machines (SVM)__
+- [`A6.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.1.Rmd) - __Semi-Supervised Learning__
+- [`A6.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.2.Rmd) - __Propogating 1-NN__
+- [`A6.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.3.Rmd) - __Self-Training__
+- [`A6.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.4.Rmd) - __Generative Models__
