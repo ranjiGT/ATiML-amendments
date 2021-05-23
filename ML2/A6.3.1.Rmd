@@ -1,0 +1,124 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 6
+author: Submitted by - Ranji Raj
+date: "May 24, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 6.3 - Self-Training**
+
+__Consider the following 2D data set and again a nearest neighbor classifier:__
+
+```{r , echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+
+library(ggplot2)
+library(extrafont)
+library(dplyr)
+library(fontawesome)
+
+df <- data.frame(x = c(1,2,2,3,3.5,4,4.5,5,5.5,6,1.5,2,2,2,2,1.5,2.5,3,3,3,3,5.5,5,6,5.5,7)
+                 ,y = c(2,1,2,2,2,2,2,2,1.5,2,2.5,3,3.5,4,4.5,3.5,3.5,2,3,3.5,4,2.5,3,3,4,3.5)
+                 )
+
+# helper dataframe for axis
+df_arrow <- data.frame(x = c(0, 0),
+                       y = c(0, 0),
+                       xend = c(0, 8),
+                       yend = c(8, 0)) 
+
+
+ggplot(df,aes(x, y)) + 
+  geom_point(colour = "blue", size = 5)+
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18))
+```
+
+__a) If point (3,2) is labeled as (+) and point (7,3.5) is labeled as (-), how would that affect self-training, if you always would classify the most confident point next? (Hint: The most confident point in this case is the nearest one.)__
+
+Given labels:  (3, 2)$\gets$(+)  and  (7, 3.5)$\gets$ (-)
+
+```{r a, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+
+df %>% 
+  dplyr::mutate(z = ifelse(x > 6, "-", "+")) %>%
+  ggplot(aes(x, y)) +
+  geom_text(size = 12, aes(colour=z, label=z)) +
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18),
+        legend.position = "none") +
+  scale_shape_manual(values=c(8, 9)) +
+  scale_colour_manual(values = c('red', 'blue'))
+```
+
+When each unlabeled point is chosen and classified using the 1-NN approach using the most confident strategy, all the points are _iteratively_ closer to (3, 2) and will be classified as (+)
+
+> The initial labeled points with this setting will not produce good result.
+
+__b) What would a better initial labeling be and why? How would it affect the self-training process in this case?__
+
+The recommended initial labeling should be (4, 2)$\gets$(+)  and  (4.5, 2)$\gets$ (-)
+
+After self-training, the classified points will be as follows:
+
+```{r b, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+
+df %>% 
+  dplyr::mutate(z = ifelse(x >= 4.5, "-", "+")) %>%
+  ggplot(aes(x, y)) +
+  geom_text(size = 12, aes(colour=z, label=z)) +
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18),
+        legend.position = "none") +
+  scale_shape_manual(values=c(8, 9)) +
+  scale_colour_manual(values = c('red', 'blue'))
+```
+
+`Justification`: With this label setting has some points that are close to one labeled point instead of the former case, where all the unlabeled points were only close to the (+) class.
+
+On the contrary, here the points to the right-hand-side of the point $(4.5, 2)$ are close to (-) class while points to the left-hand-side of the point $(4, 2)$ are close to class (+). 
+
+> This initial selection provides a balanced class distribution. [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

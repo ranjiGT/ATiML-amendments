@@ -1,0 +1,45 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 6
+author: Submitted by - Ranji Raj
+date: "May 23, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 6.1 - Semi-Supervised Learning (SSL)**
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width = '70%', fig.align="center", results='hide'}
+library(fontawesome)
+```
+
+__Describe in a few words the goal of Semi-Supervised Learning. What problems are there? What challenges?__
+
+__Goal__
+
+- SSL refers to a learning paradigm that involves a _small portion_ of the labeled examples and a _large portion_ of unlabeled examples from which a model is expected to learn and make predictions/classifications on unseen instances than only using each of the independent set alone.
+
+- Often, labeled data is expensive but unlabeled data is reasonable to acquire. SSL tries to mitigate this by using large portions of unlabeled data along with labeled data to build better classifiers.
+
+__Problems__
+
+1. If an instance is misclassified during training (ex. COVID-19 detection cases), then it will continue to persist till the learning process leading to poor generalization.
+
+1. All paradigms of SSL rely on some assumptions, it is difficult to keep up with those assumptions (ex. data generation process are same).
+
+__Challenges__
+
+1. Often difficult to validate the correctness of the model so requires to perform multiple runs.
+
+1. Leveraging the unlabeled data to improve the performance on the supervised task.
+
+1. Labels may be difficult to obtain because they require human annotators, special devices, or expensive and slow experiments.
+
+>    [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

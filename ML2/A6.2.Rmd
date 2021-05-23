@@ -1,0 +1,114 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 6
+author: Submitted by - Ranji Raj
+date: "May 23, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 6.2 - Semi-Supervised Learning (SSL)**
+
+__Consider real numbers as our data objects. Given are two data points 1 and 10. Point 1 is labeled as one class (rectangle), point 10 as another class (circle). Use the nearest neighbor classifier for the classification of a new instance.__
+
+__a) How would a new data point 7 be labeled?__
+
+```{r a, echo=FALSE, fig.cap="", out.width = '70%', fig.align="center"}
+knitr::include_graphics("6.2.1.jpg")
+library(fontawesome)
+```
+
+On 1D data using the nearest-neighbor approach, we calculate the distance between the labeled data and unlabeled data (taking the absolute distance)
+
+$d(7, 1)=|7-1|=6$ and $d(7,10)=|7-10|=3$. As, its is evident that $d(7,10)$ is _smaller_, data point 7 would be labeled to the class of 10 which is $\bigcirc$
+
+__b) Now assume that we have given more unlabeled data. How would point 7 be labeled after applying self-learning? Show each step of the algorithm.__
+
+```{r b, echo=FALSE, fig.cap="", out.width = '70%', fig.align="center"}
+knitr::include_graphics("partb.jpg")
+```
+
+Assumption of `self-learning`: Its own predictions, with the high confidence ones, tend to be correct.
+
+The given labeled points: _L_ $\in$ [$\fbox{1}$, $\Large \textcircled{\small 10}$]
+
+The given unlabeled points: _U_ $\in$ [2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16]
+
+Using `Propagating 1-NN` with same distance function as part a:
+
+Until U is $\phi$ repeat:
+
+`Iteration 1`: 
+
+- Most confident unlabeled points 2, 11 ( _using 1-NN_ )
+- Randomly pick 2, then $d(2, 1) < d(2, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}$, $\Large \textcircled{\small 10}$]
+- Remove 2 from _U_ 
+
+\newpage
+`Iteration 2`: 
+
+Start with unlabeled points: U $\in$ [3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16]
+
+- Most confident unlabeled points 3, 11 ( _using 1-NN_ )
+- Randomly pick 3, then $d(3, 2) < d(3, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}, \fbox{3}$, $\Large \textcircled{\small 10}$]
+- Remove 3 from _U_ 
+
+
+`Iteration 3`: 
+
+Start with unlabeled points: U $\in$ [4, 5, 6, 7, 11, 12, 13, 14, 15, 16]
+
+- Most confident unlabeled points 4, 11 ( _using 1-NN_ )
+- Randomly pick 4, then $d(4, 3) < d(4, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}, \fbox{3}, \fbox{4}$, $\Large \textcircled{\small 10}$]
+- Remove 4 from _U_ 
+
+
+`Iteration 4`: 
+
+Start with unlabeled points: U $\in$ [5, 6, 7, 11, 12, 13, 14, 15, 16]
+
+- Most confident unlabeled points 5, 11 ( _using 1-NN_ )
+- Randomly pick 5, then $d(5, 4) < d(5, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}, \fbox{3}, \fbox{4}, \fbox{5}$, $\Large \textcircled{\small 10}$]
+- Remove 5 from _U_ 
+
+
+`Iteration 5`: 
+
+Start with unlabeled points: U $\in$ [6, 7, 11, 12, 13, 14, 15, 16]
+
+- Most confident unlabeled points 6, 11 ( _using 1-NN_ )
+- Randomly pick 6, then $d(6, 5) < d(6, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}, \fbox{3}, \fbox{4}, \fbox{5}, \fbox{6}$, $\Large \textcircled{\small 10}$]
+- Remove 6 from _U_ 
+
+`Iteration 6`: 
+
+Start with unlabeled points: U $\in$ [7, 11, 12, 13, 14, 15, 16]
+
+- Most confident unlabeled points 7, 11 ( _using 1-NN_ )
+- Randomly pick 6, then $d(7, 6) < d(7, 10)$
+- Append L $\gets$ [$\fbox{1}, \fbox{2}, \fbox{3}, \fbox{4}, \fbox{5}, \fbox{6}, \fbox{7}$, $\Large \textcircled{\small 10}$]
+- Remove 7 from _U_ and STOP $\Rightarrow$ 7 belongs to $\square$
+
+__c) Discuss in general which kind of unlabeled data most likely improves classification quality and which does not.__
+
+- Those unlabeled data points that show some high confidence can help _improve_ the classification.
+
+- Example of __document classification__ where certain phrases are indicative of the classes. Some occur in labeled documents, whereas others only occur in unlabeled ones. But there are probably some documents that contain both, and the EM procedure uses these to generalize the learned model to utilize phrases that do not appear in the labeled data set. For example, both _supervisor_ and _PhD_ topic might indicate a graduate student’s home page. Suppose that only the former phrase occurs in the labeled documents. EM iteratively generalizes the model to correctly classify documents that contain just the latter.
+
+- Also in the case of generative models, the gained knowledge on $p(x)$, where x is an unlabeled point, will be useful for inference of $p(y|x)$ then it can be called useful and thereby improve the classification. 
+
+- Those unlabeled data points which does not follow the underlying assumption of SSL then it will _not improve_ classification.
+
+> [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
