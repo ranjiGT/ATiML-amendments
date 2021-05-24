@@ -1,0 +1,102 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 6
+author: Submitted by - Ranji Raj
+date: "May 24, 2021"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 6.4 - Generative Models**
+
+__What is a generative model? How do they relate to clustering? Give examples for generative models. What are advantages and disadvantages?__
+
+### Generative Model
+
+- A generative model is a type of _mixture models_ for SSL that describes how a dataset is generated, in terms of a probabilistic model. By sampling from this model, we are able to generate new data.
+
+- Generative models model the distribution of individual classes.
+
+- Generative modeling estimates $p(x)$ - the probability of observing observation x. If the dataset is labeled, we can also build a generative model that estimates the distribution $p(x|y)$.
+
+- Suppose we have a dataset containing images of horses. We may wish to build a model that can generate a new image of a horse that has never existed but still looks real because the model has learned the general rules that govern the appearance of a horse. This is the kind of problem that can be solved using generative modeling. 
+
+### In relation to Clustering
+
+- `Cluster-Then-Label`: Any off-the-shelf clustering algorithm can be used for SSL.
+  - Run any desired clustering algorithm on $X_L, X_U$.
+  - Then label all points within that cluster by the majority of labeled points in that cluster.
+  
+- Ex: Cluster-Then-Label with HAC.
+
+### Examples
+
+1\. __Gaussian Mixture Models (GMM)__
+
+- Make use of Expectation-Maximization (EM) algorithm or Maximum A Posterior (MAP) estimation from a well-trained prior model.
+
+- Commonly used as a parametric model of the probability distribution of features in a biometric system, which includes vocal-tract related spectral features in a speaker recognition system (also with image classification).
+
+2\. __Mixture of multinomial distributions (Naive Bayes)__
+
+- Employs the EM algorithm.
+
+- This network can be used for various applications, such as time series prediction, anomaly detection, reasoning and other such (also with text categorization). 
+
+3\. __Hidden Markov Models (HMM)__
+
+- A statistical model that can be used to describe the evolution of observable events that depend on internal factors, which are not directly observable (Baum-Welch algorithm).
+
+- A HMM consists of two stochastic processes, which are an invisible process of hidden states and a visible process of observable symbols.
+
+- The model is popularly known for their effectiveness in modeling the correlations between adjacent symbols, domains, or events, and they have been extensively used in various fields, especially in speech recognition and digital communication. 
+
+4\. __Latent Dirichlet Allocation (LDA)__
+
+- A generative probabilistic model with collections of discrete data such as text corpora. 
+
+- LDA is a three-level hierarchical Bayesian model, in which each item of a collection is modeled as a finite mixture over an underlying set of topics. 
+
+- The model has applications to various problems, including collaborative filtering,  content-based image retrieval.
+
+
+5\. __Generative Adversarial Networks (GANs)__
+
+- Are popular generative models that include two parts, generators and discriminators. 
+
+- This model works by estimating generative models via an adversarial process. 
+
+- The generative model captures the data distribution, and the discriminative model estimates the probability that a sample came from the training data rather than the generative model. 
+
+- GANs are one one of the trending generative models that have been used to create images of humans that do not exist.
+
+
+### Advantages
+
+- A well-studied probabilistic framework and hence provides as rich representation of independence relations in the dataset.
+
+- Can be extremely effective, if the model is close to correct.
+
+### Disadvantages
+
+- Often difficult to validate this correctness of the model since we do not have much of the labeled data.
+
+- At many times, one would choose a generative model solely based on domain knowledge or with the ease of math and with this the assumptions are not met or wrong then SSL would hamper the generalization performance. 
+
+- Problem of __unidentifiable generative model__: When defining a generative model _identifiability_ is a desirable property. Meaning, two models are considered equivalent if they differ only by which component is called component one, which is called component two, and so on. That is to say, there is a unique (up to permutation) model $\theta$ that explains the observed unlabeled data. Therefore, as the size of unlabeled data grows, one can hope to accurately recover the mixing components.
+
+- Another issue is of __local optima__. In essence, EM algorithm is trapped to such pitfalls which might lead to inferior performance (solution: _random restart_). 
+
+```{r echo=F, message=F, warning=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
