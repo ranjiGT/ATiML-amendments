@@ -1,6 +1,6 @@
 # `Advanced Topics in Machine Learning` ![](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)
 
-## Data Science block :scroll:
+## Data Science block :label:
 - [`A1.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A1.1.rmd) - __Exploratory Data Analysis__
 - [`A1.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A1.2.Rmd) - __Case Study on _20 newsgroup___
 - [`A1.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A1.3.Rmd) - __Data Science Pipeline__
