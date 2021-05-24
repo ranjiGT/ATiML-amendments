@@ -1,5 +1,4 @@
 # `Advanced Topics in Machine Learning` ![](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)
-Contains coursework contents of `Advanced Topics in Machine Learning`
 
 ## Data Science block
 - [`A1.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A1.1.rmd) - __Exploratory Data Analysis__
