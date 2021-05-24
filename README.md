@@ -1,4 +1,4 @@
-# `ATiML-amendments` ![](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)
+# `Advanced Topics in Machine Learning` ![](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)
 Contains coursework contents of `Advanced Topics in Machine Learning`
 
 ## Data Science block
