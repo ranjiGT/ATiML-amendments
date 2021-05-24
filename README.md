@@ -13,7 +13,7 @@
 - [`A4.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A4.3.Rmd) -  __Model comparison _(using Learning curves)___
 - [`A4.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A4.4.Rmd) - __Statistical comparison of classifiers using _Dietterich's 5x2cv paired t-test___
 
-## Semi-Supervised Learning :scroll:
+## Semi-Supervised Learning :label:
 - [`A5.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.1.Rmd) - __Linear Learning Machines__
 - [`A5.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.2.Rmd) - __Dual Representation in LLM__
 - [`A5.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A5.3.Rmd) - __Learning decision function using LLM__
