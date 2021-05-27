@@ -22,3 +22,12 @@
 - [`A6.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.2.Rmd) - __Propogating 1-NN__
 - [`A6.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.3.Rmd) - __Self-Training__
 - [`A6.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.4.Rmd) - __Generative Models__
+
+## Kernel Matrix
+```python
+def k(X):
+    for i in range(X.shape[0]):
+        for j in range(X.shape[0]):
+            res[i][j] = np.dot(X[i], X[j]) ** 2
+    return res
+```
