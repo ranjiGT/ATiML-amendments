@@ -31,3 +31,31 @@ def k(X):
             res[i][j] = np.dot(X[i], X[j]) ** 2
     return res
 ```
+
+## Perceptron workflow
+
+```python
+def max_norm(X):
+    norms = []
+    for i in range(X.shape[0]):
+        norms.append(np.linalg.norm(X[i]))
+    return max(norms) ** 2
+max_norm = max_norm(X)
+b = 0 #given 
+alpha = np.zeros(X.shape[0]) #given 
+print('Itr#   ', '---alpha vec---', '     ---b')
+for k in range(5):
+    for i in range(X.shape[0]):
+        s = 0
+        for j in range(X.shape[0]):
+            s += (alpha[j] * y[j] * res[j][i])
+        s += b
+        s *= y[i]
+        if s <= 0:
+            alpha[i] += 1
+            b += (y[i] * (max_norm))        
+        print(i+1, ' --- ', alpha, ' --- ', b)
+    print()
+print("alpha vector: ",alpha)
+print("b value: ", b)
+```
