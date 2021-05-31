@@ -22,6 +22,10 @@
 - [`A6.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.2.Rmd) - __Propogating 1-NN__
 - [`A6.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.3.Rmd) - __Self-Training__
 - [`A6.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A6.4.Rmd) - __Generative Models__
+- [`A7.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.1.Rmd) - __S3VM__
+- [`A7.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.2.Rmd) - __Branch & Bound algorithm__
+- [`A7.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.3.Rmd) - __Graph-based SSL__
+- [`A4.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.4.Rmd) - __Aultiview Algorithms__
 
 ## Kernel Matrix
 ```python
