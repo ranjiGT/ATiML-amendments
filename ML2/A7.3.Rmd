@@ -1,0 +1,48 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 7
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 7.3 - Graph-based SSL (GBSSL)**
+
+__What is the idea of graph-based semi-supervised methods?__
+
+- The idea of GBSSL is to construct a graph from the data points available which are most similar. 
+
+- All our data points are nodes in the graph. The information of the label flows through the graph via edges.
+
+__a) Given are data points as shown in the following diagram. Two data points are already labeled (cross, square). Compute a graph by creating edges between a point and its two nearest neighbors (and all other points that have the same distance as the farthest of the neighbors) using the manhattan norm. Determine all possible minimal cuts assuming the inverse of the manhattan norm as similarity metric. Label previously unlabeled points according to the minimal cuts.__
+
+Graph after consideration of 2-NN and since all the points have the same similarity we obtain the below graph:
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+knitr::include_graphics("GB1.jpg")
+```
+We now choose to pick a "cut" that passes though the minimum number of edges. Also considering the class balancing constraint we create a cut at y = c.a. 3.5. where it passes through edges 8-13-14-19. We thus obtain 2 clusters. The points above this line will be labeled as $\times$ and below as $\square$ with a proportion of 7:6 points respectively. 
+
+__b) Given are again data points as shown in the following diagram with three labelled points. Compute a 2-nearest-neighbor graph as in the previous subtask, but use the euclidean distance this time. What would the result after mincut look like, if you assume all edges to be of equivalent weight?__
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+knitr::include_graphics("GB2.jpg")
+```
+With reference to part "a" here we cut the edges 5 and 10 jointly, then we have 3 clusters 4 points each where 2 clusters will be labeled as $\square$ and one cluster as $\times$ where the class balancing constraint will not be violated.
+
+
+
+\centering
+```{r, message=F, echo=F, warning=F}
+library(fontawesome)
+```
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
+

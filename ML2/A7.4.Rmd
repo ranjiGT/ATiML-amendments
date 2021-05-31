@@ -1,0 +1,67 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 7
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 7.4 - Multiview Algorithms**
+
+### Idea
+
+Train 2 classifiers on 2 disjoint sets of features, then let each classifier label unlabeled examples and teach the other classifier. 
+
+### Variants
+
+__Co-EM (_add all, not just top 'k'_)__
+
+- Labels assigned based on the probability distribution.
+
+- Empirically better performance than co-training.
+
+__Fake feature split__
+
+- Create random, artificial splits of features into subsets and then apply co-training.
+
+__Multiview (_Ensemble_)__
+
+- Voting based on different classifier i.e. agreement among various classifiers.
+
+- No feature split required.
+
+- Train multiple classifiers of different types. 
+
+- Majority vote to unlabeled data.
+
+(Other variants: Multi-view sequential learning, Bayesian co-training, multi-view point cloud regularization, sparse multi-view SVMs, robust co-training)
+
+### Advantages
+
+i\. Simple wrapper method applicable to any classifier.
+
+ii\. Can correct mistakes in classification between the 2 classifiers.
+
+### Disadvantages
+
+i\. Assumes conditional independence between features.
+
+ii\. Natural split may not exist.
+
+iii\. Artificial split may be complicated if only few features are present.
+
+```{r, message=F, echo=F, warning=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
+

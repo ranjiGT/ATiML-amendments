@@ -1,0 +1,81 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 7
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 7.1 - Semi-Supervised SVM (S3VM)**
+
+__What is the idea of S3VM? What problems need to be addressed? What are advantages and disadvantages? How does the__ $SVM^{light}$ __try to solve the optimization problem?__
+
+### S3VM general Idea:
+
+We initially find just with the labeled training data points a hyperplane and then iteratively with the help of unlabeled data points we try to adjust in each iteration, this hyperplane in such a way that maximizes the separation between two classes.
+
+- Enumeration of all $2^u$ possible labeling of $X_u$
+- Build one standard SVM for each labeling (and $X_l$)
+- Choose the SVM with the largest margin.
+
+
+### Problems to be addressed
+
+- Empirically, observed that the solution is __imbalanced__ i.e. majority of the unlabeled instances are predicted to be only one of the classes.
+- A computational difficulty of the objective function being __non-convex__ and __non-smooth__.
+
+### Advantages
+
+- The performance of resulting (SVM) classifier would be better by choosing semi-supervised SVM.
+- If there are small amounts of labeled data and large amounts of unlabeled data, S3VM is the great choice.
+- Transparent mathematical framework.
+
+
+### Disadvantages
+
+- With the sum of large number of _hat loss functions_ the S3VM objective is non-convex with multiple local minima,
+- Hard to optimize,
+- High time complexity,
+- Given modest assumptions only small gain.
+
+### SVM-light for optimization problems
+
+$SVM^{light}$ tries to solve the optimization problem in the following steps by minimizing the following risk function:
+
+$$\underset{j}{\mathrm{min}} \sum_{i=1}^l (1-y_if(x_i))_+ +\lambda_1 \lVert h \rVert_{H_k}^2 + \widetilde{\lambda} \sum_{i=l+1}^n (1-|f(x_i)|)_+$$
+Process:
+
+1. Train the SVM on labeled data ($X_l,Y_l$)
+
+1. Sort the unlabeled data ($X_u$) in largest to smallest order by using a decision function $f(X_u)\Rightarrow$ class balancing.
+
+1. It assigns labels according to the labeled class balancing z.B. If there are two classes in labeled data $y \in \{-1,1\}$ and 2 points __each__ for each class in the labeled data & after labeling the unlabeled data (in total 6 points) from step 2., then we get 4 points from unlabeled data as (+1) and 2 points from unlabeled data as (-1), then we reassign one point from +1 to -1 and make the proportions appropriate.
+
+1. OUTER "FOR" LOOP: Considers the classic SVM i.e. $\lambda_2$ from zero up with increase in each iteration.
+
+1. INNER "WHILE" LOOP: Estimates the __hat loss__ and if there is a switchable pair ($i,j$) then switch the labels ($y_i,y_j$)
+
+- They assign hard labels to unlabeled data.
+- Outer loop: "Anneal" $\lambda_2$ from zero up
+- Inner loop: Pairwise label switch
+- "shrinking" heuristic
+- Caching of kernel evaluations
+
+```{r echo=FALSE, fig.cap="Label switching", out.width = '100%', fig.align="center"}
+knitr::include_graphics("labelswitching.jpg")
+```
+
+```{r, message=F, echo=F, warning=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

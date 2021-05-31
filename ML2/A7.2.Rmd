@@ -1,0 +1,239 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 7
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 7.2 - Branch & Bound (BB)**
+
+__Consider the following given data points in__ $R^2$ __: (1; 3) and (2; 4) labeled with (+) (3; 1) and (4; 2) labeled with (-); (1; 1), (1; 2), (4; 3), (4; 4) unlabeled. Show how the branch and bound method would determine the best hyperplane. For this purpose, visualize the search tree and the corresponding hyperplane for each node. You do not need to exactly compute the values for the minimization. A roughly estimated hyperplane in a diagram is sufficient.__
+
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(tidyverse)
+
+df <- data.frame(x = c(1,2,3,4,1,1,4,4)
+                 ,y = c(3,4,1,2,1,2,3,4))
+                 
+
+df_arrow <- data.frame(x = c(0, 0),
+                       y = c(0, 0),
+                       xend = c(0, 8),
+                       yend = c(8, 0)) 
+
+top_line <- data.frame(x = c(0,1,2,3,4,5,6,7),
+                       y = c(1,2,3,4,5,6,7,8))
+
+bottom_line <- data.frame(x = c(1,2,3,4,5,6,7,8),
+                          y = c(0,1,2,3,4,5,6,7))
+
+df %>% 
+  dplyr::mutate(z = ifelse(x > y + 1, "a",
+                           ifelse(x < y - 1, "b", "c"))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(aes(shape = z, color = z), size = 5) +
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18),
+        legend.position = "none") +
+  scale_colour_manual(values = c('red', 'blue', 'black')) +
+  scale_shape_manual(breaks = c("a", "b", "c"),
+                     values = c("a" = 95, "b" = 3, "c" = 19))
+```
+Root node: Nothing in $X_u$ labeled; Search tree
+
+```{r , echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(data.tree)
+
+acme <- Node$new("root:Unlabeled")
+  #accounting <- acme$AddChild("Accounting")
+
+print(acme)
+```
+
+Now, greedily select (1; 2) and classify as (+)
+
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(tidyverse)
+
+df <- data.frame(x = c(1,2,3,4,1,1,4,4)
+                 ,y = c(3,4,1,2,1,2,3,4))
+                 
+
+df_arrow <- data.frame(x = c(0, 0),
+                       y = c(0, 0),
+                       xend = c(0, 8),
+                       yend = c(8, 0)) 
+
+top_line <- data.frame(x = c(0,1,2,3,4,5,6,7),
+                       y = c(1,2,3,4,5,6,7,8))
+
+bottom_line <- data.frame(x = c(2,3,4,5,6,7,8,9),
+                          y = c(0,1,2,3,4,5,6,7))
+
+df %>% 
+  dplyr::mutate(z = ifelse(x > y + 1, "a",
+                           ifelse(x <= y - 1, "b", "c"))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(aes(shape = z, color = z), size = 5) +
+  geom_line(data = top_line, aes(x = x, y = y), col="blue") +
+  geom_abline(aes(slope = 1, intercept = 0)) +
+  geom_line(data = bottom_line, aes(x = x, y = y), col="red") +
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18),
+        legend.position = "none") +
+  scale_colour_manual(values = c('red', 'blue', 'black')) +
+  scale_shape_manual(breaks = c("a", "b", "c"),
+                     values = c("a" = 95, "b" = 3, "c" = 19))
+```
+
+```{r , echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(data.tree)
+
+acme <- Node$new("root:Unlabeled")
+  accounting <- acme$AddChild("(1;2)")
+    software <- accounting$AddChild("(1;2)+")
+print(acme)
+```
+
+Now, greedily select (1; 1) and classify as (+)
+
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(data.tree)
+
+acme <- Node$new("root:Unlabeled")
+  accounting <- acme$AddChild("(1;2)")
+    standards <- accounting$AddChild("(1;2)+")
+    newLabs <- standards$AddChild("(1;1)+")
+  
+
+print(acme)
+```
+Likewise we select (4;4) as (+) and (4;3) as (-).
+
+The probably approximate hyperplane would be-
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(tidyverse)
+
+df <- data.frame(x = c(1,2,3,4,1,1,4,4)
+                 ,y = c(3,4,1,2,1,2,3,4))
+                 
+
+df_arrow <- data.frame(x = c(0, 0),
+                       y = c(0, 0),
+                       xend = c(0, 8),
+                       yend = c(8, 0)) 
+
+top_line <- data.frame(x = c(0,1,2,3,4,5,6,7),
+                       y = c(1,2,3,4,5,6,7,8))
+
+bottom_line <- data.frame(x = c(1,2,3,4,5,6,7,8),
+                          y = c(0,1,2,3,4,5,6,7))
+
+df %>% 
+  dplyr::mutate(z = ifelse(x-1 >= y, "a",
+                           ifelse(x < y , "b", "b"))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(aes(shape = z, color = z), size = 5) +
+  geom_line(data = top_line, aes(x = x, y = y), col="blue") +
+  geom_abline(aes(slope = 1, intercept = 0)) +
+  geom_line(data = bottom_line, aes(x = x, y = y), col="red") +
+  scale_x_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  scale_y_continuous(breaks = 1:7, expand = expansion(add = c(0, 1)))+
+  coord_fixed(xlim = c(0, 7), ylim = c(0, 7), clip = "off")+
+  geom_segment(data = df_arrow, aes(x = x, xend = xend, y = y, yend = yend), size = 0.75, colour = "black",
+               arrow = arrow(angle = 20, length = unit(3, "mm"), ends = "last", type = "closed"), linejoin = "mitre") +
+  annotate("text", x = c(7.8, 0.3), y = c(0.3, 7.8), label = c("italic(x)", "italic(y)"), parse = TRUE, size = 6)+
+  labs(x = NULL,
+       y = NULL)+
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.ticks.length = unit(1, "mm"),
+        text = element_text(size = 18),
+        legend.position = "none") +
+  scale_colour_manual(values = c('red', 'blue')) +
+  scale_shape_manual(breaks = c("a", "b"),
+                     values = c("a" = 95, "b" = 3))
+```
+The above hyperplane gives a decent separation between the positive and negative region and probably with a minimum objective function.
+
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(data.tree)
+
+acme <- Node$new("root:Unlabeled")
+  accounting <- acme$AddChild("(1;2)")
+    standards <- accounting$AddChild("(1;2)+")
+    newLabs <- standards$AddChild("(1;1)+")
+    newLabs1 <- newLabs$AddChild("(4;4)+")
+    newLabs2 <- newLabs1$AddChild("(4;3)-")
+
+print(acme)
+```
+
+
+### Complete Search space tree
+
+
+```{r, echo=FALSE, out.width = '70%', fig.align="center", warning=F, message=F}
+library(data.tree)
+
+acme <- Node$new("root:Unlabeled")
+  accounting <- acme$AddChild("(1;2)")
+    software <- accounting$AddChild("(1;2)+")
+    standards <- accounting$AddChild("(1;2)-")
+  accounting <- acme$AddChild("(1;1)")
+    software <- accounting$AddChild("(1;1)+")
+    standards <- accounting$AddChild("(1;1)-")
+    
+    research1 <- acme$AddChild("(4;4)")
+    newProductLine <- research1$AddChild("(4;4)+")
+    newLabs <- research1$AddChild("(4;4)-")
+  research2 <- acme$AddChild("(4;3)")
+    newProductLine <- research2$AddChild("(4;3)+")
+    newLabs <- research2$AddChild("(4;3)-")
+
+print(acme)
+```
+
+
+
+```{r, message=F, echo=F, warning=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
