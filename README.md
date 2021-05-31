@@ -25,7 +25,7 @@
 - [`A7.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.1.Rmd) - __S3VM__
 - [`A7.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.2.Rmd) - __Branch & Bound algorithm__
 - [`A7.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.3.Rmd) - __Graph-based SSL__
-- [`A4.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.4.Rmd) - __Aultiview Algorithms__
+- [`A7.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.4.Rmd) - __Multiview Algorithms__
 
 ## Kernel Matrix
 ```python
