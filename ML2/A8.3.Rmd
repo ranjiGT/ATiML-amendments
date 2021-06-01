@@ -1,0 +1,45 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 8
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 8.3 - Constrained clustering on Contiguous clusters**
+
+__Explain how constraints can help clustering the following data. Also think about possible problems that may arise when adding constraints.__
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+library(fontawesome)
+knitr::include_graphics("CG.jpg")
+```
+
+The above are __Contiguity-based clusters__ i.e. A cluster is a set of points such that a point in a cluster is closer (or more similar) to one or more other points in the cluster than to any point not in the cluster.
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+knitr::include_graphics("CG-1.jpg")
+```
+We label the C-shaped cluster as "C2" and elongated cluster as "C1". 
+
+- Adding constraints to the above data can help when we incorporate a set of __must-link__ constraints within all points of C2 as well as to C1. So that, the points are not interchanged among each other which also defines the shape and density of these clusters (local similarity).
+
+- It must also be noted that in these _contiguity-based_ clusters there is a significant amount of gap between both the clusters which can only be maintained by adding a set of __cannot-link__ constraints for maintaining the global similarity of both the clusters.
+
+- Also this can be realized with having hard constraints where we enforce all constraints to be of equal importance. Soft constraints with added weights can also be specified.
+$$con(x,y,w); w \in [-1;1]$$
+ 
+### Inherent problems of adding constraints
+
+When the ordering of the instances (e.x. _set.seed(123)_) is not maintained then at every iteration we might end up having different-looking clusters each time which might violated the above proposed constraints which can lead to feasibility issues.
+
+\centering 
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
