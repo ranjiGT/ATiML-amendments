@@ -26,6 +26,9 @@
 - [`A7.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.2.Rmd) - __Branch & Bound algorithm__
 - [`A7.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.3.Rmd) - __Graph-based SSL__
 - [`A7.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A7.4.Rmd) - __Multiview Algorithms__
+- [`A8.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.1.Rmd) - __Constrained clustering__
+- [`A8.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.2.Rmd) - __Must-link & Cannot-link constraints__
+- [`A8.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.3.Rmd) - __Data & constrained-clustering__
 
 ## Kernel Matrix
 ```python
