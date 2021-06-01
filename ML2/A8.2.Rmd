@@ -1,0 +1,94 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 8
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 8.2 - Must-link & Cannot-link constraints**
+
+__Given is the following graph of must-link (solid lines) and cannot-link (dashed lines) constraints. Make use of their properties to induce additional constraints between the other nodes. What would happen if another cannot-link constraint is inserted between node 4 and 8? What if another must-link is introduced between 2 and 4?__
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+library(fontawesome)
+knitr::include_graphics("graph1.jpg")
+```
+Must-link constraints are __transitive__
+$$\forall x,y,z: con_{=}(x,y) \wedge con_{=}(y,z)\to con_{=}(x,z)$$
+
+Cannot-link constraints are __non-transitive__, but
+$$\forall x,y,z: con_{=}(x,y) \wedge con_{\neq}(y,z)\to con_{\neq}(x,z)$$
+Cannot-link: $\neq$, Must-link: =
+
+From | To | Constraint
+:----- | :----: | -----:
+1   | 3 | =
+2  | 6  | $\neq$
+8  | 1  | $\neq$
+7  | 1  | $\neq$
+7  | 8  | =
+4  | 10  | $\neq$
+9  | 5  | $\neq$
+
+
+Adding cannot-link constraint between node 4 and 8,
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+knitr::include_graphics("graph2.jpg")
+```
+
+From | To | Constraint
+:----- | :----: | -----:
+1   | 3 | =
+2  | 6  | $\neq$
+8  | 1  | $\neq$
+7  | 1  | $\neq$
+7  | 8  | =
+__6__  | __4__  | $\neq$
+4  | 10  | $\neq$
+9  | 5  | $\neq$
+__5__  | __8__  | $\neq$
+
+
+Adding must-link constraint between node 2 and 4, [`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center"}
+knitr::include_graphics("graph3.jpg")
+```
+
+From | To | Constraint
+:----- | :----: | -----:
+1   | 3 | =
+2  | 6  | $\neq$
+8  | 1  | $\neq$
+7  | 1  | $\neq$
+7  | 8  | =
+__6__  | __4__  | $\neq$
+__4__  | __3__  | =
+__4__  | __1__  | =
+4  | 10  | $\neq$
+9  | 5  | $\neq$
+__5__  | __8__  | $\neq$
+__5__  | __2__  | =
+
+```{r}
+library(igraph)
+
+edges <- c(1,2, 2,3, 6,8, 6,7, 4,5, 9,10, 1,6, 5,10)
+x <- c(2, 1, 2, 1, 2, 5, 6, 5, 6, 5)
+y <- c(5:1, 5:1)
+
+g <- graph(edges, n=max(edges), directed = FALSE)
+V(g)$color <- "yellow"
+E(g)$lty <- c(rep(1, 6), 3, 3)
+plot(g, layout = cbind(x, y))
+```
+

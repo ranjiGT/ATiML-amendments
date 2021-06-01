@@ -1,0 +1,35 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 8
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 8.1 - Constrained clustering**
+
+
+| **In terms of**       | **Instance-based**     | **Metric-based** |
+| :------------- | :----------: | :-----------: |
+|  Similarities | Direct use of the constraints (similar to lazy learning) | Generalizing knowledge from constraints.  |
+|
+| Differences   | Have __local__ effects. i.e. information only about the objects  involved  but not about the neighborhood objects.| Have more __global__ influence change in the underlying similarity measure.|
+|
+| Advantages   | 1\. Addition of constraint leads to poor performance but often there is a hike with this technique.\newline | 1\. Unlabeled objects can be integrated. \newline 2\. Can make use of independent training set of constraints. \newline 3\. Metric can be applied to a future dataset.    |
+|
+| Disadvantages   | 1\. Non-informative constraints. \newline 2\. Future datasets must be added to the constrained objects.  | 1\. Equal points need to be handled equally. \newline 2\. A sufficient number of constraints are needed for a decent generalization, otherwise it can lead to __overfitting__.    |
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
