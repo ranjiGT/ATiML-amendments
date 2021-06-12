@@ -31,4 +31,8 @@
 - [`A8.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.1.Rmd) - __Instance-based & Metric-based Constrained clustering__
 - [`A8.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.2.Rmd) - __Must-link & Cannot-link constraints__
 - [`A8.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A8.3.Rmd) - __Constrained clustering__
+- [`A9.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A9.1.Rmd) - __Must-link vs. Cannot-link vs. Must-link-before__
+- [`A9.2`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A9.2.Rmd) - __COP-k-Means__
+- [`A9.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A3.3.Rmd) - __Constrained clustering on FCM__
+- [`A9.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A9.4.Rmd) - __Hierarchical constrained clustering__
 
