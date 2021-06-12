@@ -1,0 +1,45 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 9
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 9.4 - Constrained hierarchical clustering**
+
+__What is the basic idea of constrained hierarchical clustering? Discuss how an hierarchical clustering of webpage bookmarks could be improved by user-defined constraints.__
+
+- Items are linked over different hierarchy levels.
+
+- Constraints differ on different hierarchy levels.
+
+- Must-link-before constraint: Items must be linked in sub-tree before linking to the item in the upper hierarchy.
+
+
+### Hierarchical clustering of webpage bookmarks
+
+- A webpage with related content can have must-link constraint and the one with different content can have a cannot-link constraint.
+
+- Related content can be kept in the same hierarchical level.
+
+- We can identify related content with the help of users. They can impose some conditions for the webpage to have must-link-before or cannot-link constraints.
+
+- Related webpages can be kept in a folder. Each hierarchical level can be represented with a folder (nested directory).
+
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
