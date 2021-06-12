@@ -1,0 +1,38 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 9
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 9.1 - Must-link vs. Cannot-link vs. Must-link-before constraints**
+
+__Compare must-link, cannot-link, and must-link-before constraints in terms of their expressiveness.__
+
+
+| **Must-link**       | **Cannot-link**     | **Must-link-before** |
+| :-------------: | :----------: | :-----------: |
+|  Data points belongs to the _same_ cluster | Data points belongs to _different_ cluster | Data points must be linked at first in lower hierarchy level before linking to its outer level.|
+|
+| Specification by means of _pairwise relationships_ between objects.   | _Pairwise specification_ between objects.| Instead of pairs has triplets $(d_x,d_y,d_z)$.|
+|
+| Follows _transitivity_ property.   | _Transitivity_ property does not hold. | Follows _transitivity_ under sub-tree or between different hierarchy level.|
+|
+| Follows _symmetry_ property. | Follows _symmetry_ property. | Follows _symmetry_ property.
+|
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

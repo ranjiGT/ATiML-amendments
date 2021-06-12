@@ -1,0 +1,63 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 9
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 9.2 - COP-k-Means**
+
+__Discuss the basic ideas of the COP-k-Means algorithm using the points and constraints of assignment 8.2. Where are the initial cluster centers placed? How are they updated? What are the differences to PCK- and MPCK-Means?__
+
+- In the standard _k_-means algorithm, we assign data points to the cluster with the _minimum_ distance.
+
+- In COP-k-means, this step is modified and data points are processed order-wise.
+
+- We first check the must-link and cannot-link constraints before assigning the data points to the cluster.
+
+- Before assigning data points to the closest cluster, we check if the data points with must-link are present in the same cluster or end up in different clusters. 
+
+- If it is present in the same cluster we assign the points to the same cluster or to the next cluster which will have both the data points which are connected with must-link constraints.
+
+- Data points with cannot-link constraints should not be assigned to the same clusters. They definitely have to be present in different clusters.
+
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center", fig.cap="Set of points on a graph (8.2)"}
+library(fontawesome)
+knitr::include_graphics("graph-9.2.jpg")
+```
+
+- For our problem consider _k_=2, and the cluster centers to be c1 and c2. With this setting $\Large \textcircled{\small 1}, \Large \textcircled{\small 2}, \Large \textcircled{\small 3}$ will be assigned to "c1" and $\Large \textcircled{\small 4}, \Large \textcircled{\small 5}$ will be assigned to "c2".
+
+- For point $\Large \textcircled{\small 6}$, it is evident from the graph that c1 is the closest but also it has to be noted that it has a __cannot-link__ constraint with $\Large \textcircled{\small 2}$ and hence, it will not be assigned to "c1" instead it will be put to next closest cluster __c2__.
+
+- Similarly, $\Large \textcircled{\small 7}, \Large \textcircled{\small 8}$ have a __must-link__ constraint with $\Large \textcircled{\small 6}$ and since it is already assigned to "c2", $\Large \textcircled{\small 7}, \Large \textcircled{\small 8}$ will also be assigned to __c2__ even though "c1" is closer to them from the graph.
+
+```{r, echo=FALSE, out.width = '50%', fig.align="center", fig.cap="Final updation"}
+knitr::include_graphics("graph1-9.2.jpg")
+```
+
+- At the end,  $\Large \textcircled{\small 1}, \Large \textcircled{\small 2}, \Large \textcircled{\small 3}, \Large \textcircled{\small 9}, \Large \textcircled{\small 10} \gets$  __c1__ and $\Large \textcircled{\small 4}, \Large \textcircled{\small 5}, \Large \textcircled{\small 6}, \Large \textcircled{\small 7}, \Large \textcircled{\small 8} \gets$ __c2__. $\Large \textcircled{\small 9}$ will be put in "c1" due to the _transitive_ property; reason being, it has a __must-link__ with $\Large \textcircled{\small 10}$ and $\Large \textcircled{\small 10}$ has __cannot-link__ with $\Large \textcircled{\small 5}$ and therefore $\Large \textcircled{\small 9}$ is __cannot-link__ with $\Large \textcircled{\small 5}$ and since $\Large \textcircled{\small 5}$ is assigned to "c2", $\Large \textcircled{\small 9}$ will be assigned to "c1". 
+
+### Differences to PCK-Means and MPCK-Means
+
+- In PCK-Means and MPCK-Means, cluster centers are initialized based on the _constraints_. In COP-k-Means this is done _randomly_.
+
+- PCK-Means assigns data points based on minimum distances to cluster center and at the cost of constraint violations.
+
+- In MPCK-Means, a global matrix is learned which assigns weights to constraint violations.
+
+
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
