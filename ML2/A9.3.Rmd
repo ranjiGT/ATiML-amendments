@@ -1,0 +1,41 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 9
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 9.3 - Constrained clustering with Fuzzy-C-Means**
+
+__Imagine how must-link and cannot-link constraints can be integrated into the fuzzy c-means algorithm. How could the target function be adjusted?__
+
+- The Fuzzy-C-Means (FCM) is a soft clustering algorithm where data points can belong to more than clusters based on a certain membership degree.
+
+- By introducing must-link and cannot-link constraints, we can modify the membership degree of each point.
+
+- For example $\Large \textcircled{\small 1}, \Large \textcircled{\small 2}$ have __cannot-link__ constraint and $\Large \textcircled{\small 1}$ is assigned to "C1" and now since $\Large \textcircled{\small 2}$ cannot be put in C1, we can therefore enforce the membership degree of $\Large \textcircled{\small 2}$ for C1 to be 0 and greater than 0 for other clusters.
+
+- Likewise, for __must-link__ constraint, we can increase the membership degree of data points with must-link to the closest cluster.
+
+So the target function can be formulated as,
+
+$$J=\frac{1}{2}\sum_{i=1}^c\sum_{j=1}^n u_{ij}^m d_{ij}^2+\sum_{(x_i,x_j)\in   con_=} w*\delta(c_i \ne c_j)+\sum_{(x_i,x_j)\in   con_\ne} w*\delta(c_i = c_j)$$
+where, c = number of clusters, \newline n = number of data points \newline m = fuzzifier/degree of fuzziness, \newline $u_{ij}$ = Membership degree, \newline $d_{ij}$ = distance between cluster and data point, \newline w = weights, \newline $\delta$ = constraint
+
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
