@@ -1,0 +1,65 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 10
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 10.1 - Learning Markov models**
+
+__What is a first or__ $n^{th}$ __order Markov model? How can it be learned?__ 
+
+### Motivation
+
+- An agent observes an environment and based on some control policy takes an action at each time step to go from one state to another.
+
+- For every state and action, there exists a succeeding state and the process changes with a given probability.
+
+
+### Markov process
+
+- It is a process where the probability of the succeeding state depends only on the current state and action.
+
+- It does not depend on any previous state $\Rightarrow$ less memory requirements.
+
+- $1^{st}$ order Markov model: That depends on the `current state` and `action`.
+
+- $n^{th}$ order Markov model: That depends on the $n^{th}$ `previous state` and `action`.
+
+
+### Learning a Markovian model
+
+- Maximum Likelihood Estimator,
+
+- Observe how often you get to state $S$, from previous state $S_{t-1}$.
+
+- Conditional probability depends on the frequency of the state sequence.
+
+
+Mathematically,
+
+$$P(S_{i_{n}}|S_{i_{1}},...,S_{i_{n-1}})=\frac{freq(S_{i_{1}},...,S_{i_{n}})}{freq(S_{i_{1}},...,S_{i_{n-1}})} \forall i_1,...,i_n \in \{1,...,|S|\}$$
+
+where,
+
+$P(S_{i_{n}}|S_{i_{1}},...,S_{i_{n-1}})$ is the conditional probability,
+$freq(S_{i_{1}},...,S_{i_{n}})$ is the frequency to state $S_n$ from the initial state.
+$freq(S_{i_{1}},...,S_{i_{n-1}})$ is the frequency to state $S_{n-1}$ from the initial state.
+
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)

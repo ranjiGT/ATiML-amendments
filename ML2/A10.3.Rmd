@@ -1,0 +1,66 @@
+---
+title: Advanced Topics in Machine Learning
+subtitle: Sheet 10
+author: Submitted by - Ranji Raj
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{titling}
+- \usepackage{scalerel,amssymb}
+- \posttitle{\end{center}} \usepackage{fancyhdr} \pagestyle{fancy} 
+---
+
+# **Assignment 10.3 - K-Dimensional-trees**
+
+__What is the idea behind KD-trees? For which problems can a KD-tree be used to speed up the computation time?__
+
+### KD-trees idea
+
+- For _k_-NN, the speed of prediction is slow for a very large dataset because it has to look at every training example every time it makes a prediction.
+
+- So this can be implemented efficiently, i.e., O(log n) at retrieval time, if we use smart data structures to facilitate the information retrieval for which we use a tree-based data structure like __KD-trees__.
+
+```{r, echo=FALSE, out.width = '100%', fig.align="center", fig.cap="Recursive partitioning into axis-aligned boxes in KD-trees"}
+knitr::include_graphics("kd-tree.png")
+```
+
+### Operations
+
+- If there is just one point, form a leaf with that point.
+
+- Otherwise, split the points in half on one of the feature (e.g., one with
+maximum variance).
+
+- Recursively construct KD tree for the two sets of points.
+
+- Each leaf node represents a bounding box of a region that contains a set of point.
+
+### Problems KD-trees are used to speed-up the computation time
+
+(Intuitive understanding) Consider 1-NN and a depth = 1 KD-tree:
+
+- Identify which side the query point is on (e.g., the right side) by comparing
+the value of the feature along the cutting dimension (e.g., x > 6),
+
+- Compute the distances to the nearest neighbor,
+
+- Check distance between the query point and the partition wall (axis-aligned). If this distance $d_w$ > distance to our closest neighbor, then we achieve our task. (Because we know that none of the data points inside that partition can be closer.) $\Rightarrow$ In this case, we get a 2x speed up!
+
+
+```{r, echo=FALSE, out.width = '100%', fig.align="center", fig.cap="KD-trees for speeding up computation time"}
+knitr::include_graphics("kd-knn.png")
+```
+
+
+
+```{r, echo=F, warning=F, message=F}
+library(fontawesome)
+```
+
+\centering
+
+[`r fa("github", fill = "black")`](https://github.com/ranjiGT/ATiML-amendments)
