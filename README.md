@@ -36,3 +36,7 @@
 - [`A9.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A9.3.Rmd) - __Constrained clustering on FCM__
 - [`A9.4`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A9.4.Rmd) - __Hierarchical constrained clustering__
 
+
+## Markov models and KD trees :label:
+- [`A10.1`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A10.1.Rmd) - __First order and n-th order Markov models__
+- [`A10.3`](https://github.com/ranjiGT/ATiML-amendments/blob/main/ML2/A10.3.Rmd) - __K-Dimensional Trees__
